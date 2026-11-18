@@ -1,23 +1,21 @@
 # Backlog de EcoReto
 
-Los Issues contienen las historias de usuario y sus criterios de aceptación. Este backlog resume su planificación, dependencias y responsables.
+Las historias completas y sus criterios de aceptación están en [GitHub Issues](https://github.com/MarioDiazRamos/EcoReto/issues).
 
-| Historia | Funcionalidad | Dependencias | Revisión | Responsable | Estado |
-|---|---|---|---|---|---|
-| [HU-01 · #1](https://github.com/MarioDiazRamos/EcoReto/issues/1) | Catálogo, búsqueda, detalle y navegación inicial | Ninguna | 1 | MarioDiazRamos | Implementada; PR #8 pendiente de revisión e integración |
-| [HU-02 · #2](https://github.com/MarioDiazRamos/EcoReto/issues/2) | Registro persistente y consulta del estado de participaciones | HU-01; contrato de identidad de HU-03 | 2 | Por asignar | Pendiente |
-| [HU-03 · #3](https://github.com/MarioDiazRamos/EcoReto/issues/3) | Autenticación, roles y moderación | HU-02; coordinación con HU-06 | 2 | Por asignar | Pendiente |
-| [HU-04 · #4](https://github.com/MarioDiazRamos/EcoReto/issues/4) | CRUD de retos | HU-01 y autorización de HU-03 | 2 | Por asignar | Pendiente |
-| [HU-05 · #5](https://github.com/MarioDiazRamos/EcoReto/issues/5) | Ranking y estadísticas por persona o grupo | HU-06 para puntuación real | 1: vista inicial; 3: datos reales | Por asignar | Vista inicial disponible; cálculo real pendiente |
-| [HU-06 · #6](https://github.com/MarioDiazRamos/EcoReto/issues/6) | Asignación atómica e idempotente de puntos | HU-02 y HU-03 | 2 y 3 | Por asignar | Pendiente |
-| [HU-07 · #7](https://github.com/MarioDiazRamos/EcoReto/issues/7) | Instalación reproducible, pruebas y entrega | Funcionalidades de cada revisión | 1, 2 y 3 | Por asignar | En curso |
-
-## Calendario de entregas
-
-| Revisión | Fecha | Valor | Entregables principales |
+| Historia | Funcionalidad | Responsable | Estado |
 |---|---|---|---|
-| 1 | 19/11/2026 | 25 puntos | Vistas iniciales, función real, documentación y primer PR revisado e integrado en develop |
-| 2 | 26/11/2026 | 35 puntos | CRUD, persistencia, moderación, puntos, cinco pruebas —dos negativas— y dos PR adicionales integrados |
-| Final | 03/12/2026 | 40 puntos | Ranking y progreso reales, ocho pruebas —tres negativas—, instalación reproducible y release 1.0.0 |
+| [HU-01 · #1](https://github.com/MarioDiazRamos/EcoReto/issues/1) | Catálogo, búsqueda y navegación | Mario Diaz Ramos | Integrada en `develop` mediante [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8) |
+| [HU-02 · #2](https://github.com/MarioDiazRamos/EcoReto/issues/2) | Registro y consulta persistente de participaciones | Karlo Silvestre De la cruz Flores | Pendiente |
+| [HU-03 · #3](https://github.com/MarioDiazRamos/EcoReto/issues/3) | Autenticación, roles y moderación | Juan Rodolfo Mozqueda Lozano | Autenticación en [PR #11](https://github.com/MarioDiazRamos/EcoReto/pull/11); moderación pendiente |
+| [HU-04 · #4](https://github.com/MarioDiazRamos/EcoReto/issues/4) | Administración de retos (CRUD) | Francisco Javier Zavala Martinez | Pendiente |
+| [HU-05 · #5](https://github.com/MarioDiazRamos/EcoReto/issues/5) | Ranking y estadísticas | Mario Diaz Ramos | Vista inicial integrada; datos reales pendientes |
+| [HU-06 · #6](https://github.com/MarioDiazRamos/EcoReto/issues/6) | Puntos por aprobación, sin duplicaciones | Juan Rodolfo Mozqueda Lozano | Pendiente |
+| [HU-07 · #7](https://github.com/MarioDiazRamos/EcoReto/issues/7) | Pruebas, instalación y entrega | Francisco Javier Zavala Martinez; equipo completo | En curso |
 
-Las responsabilidades y el procedimiento de integración se describen en [Equipo y colaboración](EQUIPO.md). El estado de la primera revisión se registra en [Entrega 1](ENTREGA-01.md).
+## Calendario
+
+| Revisión | Fecha | Entrega |
+|---|---|---|
+| 1 | 19/11/2026 | Pantallas iniciales, búsqueda funcional, modelo, pruebas y primer PR integrado |
+| 2 | 26/11/2026 | Persistencia, CRUD, moderación, puntos, cinco pruebas y dos PR adicionales integrados |
+| Final | 03/12/2026 | Ranking real, casos críticos, ocho pruebas, demostración y `release/1.0.0` |
