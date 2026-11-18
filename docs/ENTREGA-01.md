@@ -1,86 +1,93 @@
-# Entrega 1 — EcoReto
+# EcoReto — Primera revisión
 
-Proyecto: 05 — EcoReto, Aplicaciones de Internet 2026.
-Equipo: Mario Diaz Ramos (@MarioDiazRamos); responsabilidades adicionales por asignar.
-Revisión: 1 — jueves 19 de noviembre de 2026, 25 puntos.
-Repositorio: https://github.com/MarioDiazRamos/EcoReto
-Rama de integración: `develop`.
-Demostración: http://127.0.0.1:8000/index.php, con el servidor local iniciado.
+**Proyecto:** 05 — EcoReto · Aplicaciones de Internet 2026  
+**Fecha:** 19 de noviembre de 2026  
+**Equipo:** Francisco Javier Zavala Martinez; Juan Rodolfo Mozqueda Lozano; Karlo Silvestre De la cruz Flores; Mario Diaz Ramos  
+**Repositorio:** https://github.com/MarioDiazRamos/EcoReto  
+**Rama de integración:** `develop`  
+**Demostración local:** `http://127.0.0.1:8000/index.php`
 
-## 1. Objetivo de la entrega
+## Objetivo y alcance
 
-Presentar el catálogo y la navegación inicial, demostrar búsqueda y filtrado mediante PHP y establecer el modelo y backlog del sistema.
+Mostrar el catálogo y las pantallas iniciales de EcoReto, demostrar la búsqueda y el filtrado de retos en PHP y documentar las historias de usuario, el modelo de datos y las reglas de puntuación.
 
-## 2. Funcionalidades
+## Funcionalidades presentadas
 
-| Historia | Funcionalidad | Responsable | Rama | PR | Estado |
-|---|---|---|---|---|---|
-| HU-01 | Catálogo, búsqueda, filtros, detalle y navegación | MarioDiazRamos | feature/catalogo-navegacion | [#8](https://github.com/MarioDiazRamos/EcoReto/pull/8) | Implementada; revisión e integración pendientes |
-| HU-05, vista inicial | Ranking ilustrativo por persona y grupo | MarioDiazRamos | feature/catalogo-navegacion | #8 | Vista disponible; cálculo persistente pendiente |
+| Historia | Funcionalidad | Responsable | Evidencia | Estado |
+|---|---|---|---|---|
+| HU-01 | Catálogo de seis retos, búsqueda, filtros, detalle y navegación | Mario Diaz Ramos | [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8) | Integrada en `develop` |
+| HU-05 (vista inicial) | Ranking ilustrativo por persona y grupo | Mario Diaz Ramos | [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8) | Vista inicial integrada |
 
-El formulario de participación y la vista pendiente son prototipos sin almacenamiento. La búsqueda PHP constituye la funcionalidad dinámica de esta entrega.
+El formulario de participación y la pantalla de estado pendiente son prototipos. No almacenan participaciones. El ranking muestra datos de ejemplo; no se asignan puntos reales en esta versión.
 
-## 3. Instalación y ejecución
+## Ejecución
 
-1. Disponer de PHP 8.x, Git, navegador e internet para Tailwind CSS y Google Fonts. Versión probada: PHP 8.5.12. PDO SQLite se utilizará en la siguiente etapa.
-2. Clonar el repositorio con acceso autorizado y abrir el directorio `EcoReto`.
-3. Seleccionar `feature/catalogo-navegacion` mientras el PR #8 esté abierto; después de integrarlo, utilizar develop actualizada.
-4. No se requieren dependencias adicionales, variables de entorno, base de datos inicial ni cuentas de acceso en este avance.
-5. Ejecutar `php -S 127.0.0.1:8000 -t public`.
-6. Abrir http://127.0.0.1:8000/index.php. Detener el servidor con `Ctrl+C`.
+Requisitos: Git, PHP 8.x y navegador con conexión a internet para los estilos y las fuentes.
 
-Comandos completos en [README](../README.md).
+```sh
+git clone https://github.com/MarioDiazRamos/EcoReto.git
+cd EcoReto
+git switch develop
+php -S 127.0.0.1:8000 -t public
+```
 
-## 4. Modelo de datos
+Abrir `http://127.0.0.1:8000/index.php`. El proyecto puede iniciarse en esta etapa sin base de datos. [Instrucciones generales](../README.md).
 
-[Entidades, relaciones y reglas](MODELO.md). El catálogo de ejemplo se encuentra en `src/retos.php`. La persistencia de participaciones, validaciones y puntos está pendiente. [Bocetos de pantallas](bocetos.svg).
+## Datos y puntuación
 
-## 5. Evidencias de pruebas
+El [modelo preliminar](MODELO.md) contempla retos, participantes, participaciones, validaciones y puntos. Las reglas establecen que una participación pendiente o rechazada no suma puntos y que solo una aprobación válida puede otorgarlos, sin duplicaciones.
 
-Pruebas ejecutadas el 17/11/2026:
+## Evidencias de pruebas
+
+**Versión evaluada:** `develop`, commit [`8c8374b`](https://github.com/MarioDiazRamos/EcoReto/commit/8c8374b9fce60c0aff1295be031f79cfe3c4f0cc).  
+**Fecha:** 18 de noviembre de 2026.  
+**Resultados:** 14 pruebas PHP y 38 comprobaciones HTTP correctas; 16 rutas internas recorridas.
 
 ```sh
 php tests/smoke.php
 python tests/http_smoke.py
 ```
 
-La prueba HTTP requiere el servidor iniciado; Python solo se utiliza para esa prueba. Resultados: **14 pruebas PHP y 38 comprobaciones HTTP satisfactorias**, con **16 rutas internas** recorridas. Los nueve archivos PHP pasan la revisión de sintaxis; `git diff --check` no presenta errores.
-
 | ID | Acción | Resultado esperado | Resultado obtenido | Evidencia | Estado |
 |---|---|---|---|---|---|
-| T-01 | Consultar /index.php | Mostrar seis retos con fechas y puntos | HTTP 200; seis tarjetas | tests/http_smoke.py | Correcto |
-| T-02 | Buscar q=agua | Coincidir en la descripción | HTTP 200; una tarjeta | Ambas suites | Correcto |
-| T-03 | Buscar ENERGIA y consultar category=Residuos por separado | Normalizar acentos y filtrar categoría | Una y dos coincidencias, respectivamente | Ambas suites | Correcto |
-| T-04 | Combinar q=agua y category=Residuos | Mostrar estado vacío | HTTP 200; cero tarjetas y mensaje | tests/http_smoke.py | Correcto |
-| T-05 | Enviar array, consulta excesiva, UTF-8 inválido o categoría desconocida | Rechazar parámetros inválidos | HTTP 400 | Ambas suites | Correcto, negativo |
-| T-06 | Introducir una etiqueta script en q | Escapar HTML | Salida escapada, sin etiqueta script cruda | Ambas suites | Correcto, negativo |
-| T-07 | Consultar id=-1 e id=999 | Distinguir entrada inválida y reto inexistente | HTTP 400 y 404 con recuperación | Ambas suites | Correcto, negativo |
-| T-08 | Recorrer enlaces de catálogo, detalles y vistas iniciales | Evitar enlaces internos rotos | 16 rutas con HTTP 200 | tests/http_smoke.py | Correcto |
-| T-09 | Solicitar /src/retos.php y /storage/.gitkeep | Impedir acceso fuera de public | HTTP 404 | tests/http_smoke.py | Correcto |
-| T-10 | Abrir formulario, pendiente y ranking | Mostrar contexto y datos iniciales | Reto seleccionado, aviso de prototipo, cero puntos pendientes y ranking ilustrativo | tests/http_smoke.py | Correcto por HTTP |
-| T-11 | Revisar presentación móvil y escritorio, menú y previsualización | Comprobar distribución e interacción | Por ejecutar en navegador | Revisión visual | Pendiente |
+| T-01 | Abrir el catálogo | Mostrar seis retos | HTTP 200 y seis tarjetas | `tests/http_smoke.py`; captura 01 | Correcto |
+| T-02 | Buscar `agua` | Una coincidencia | HTTP 200 y un reto | `tests/http_smoke.py`; captura 02 | Correcto |
+| T-03 | Filtrar categoría `Residuos` | Dos coincidencias | Dos retos | `tests/http_smoke.py` | Correcto |
+| T-04 | Combinar `agua` con `Residuos` | Estado sin coincidencias | Cero retos y mensaje | `tests/http_smoke.py` | Correcto |
+| T-05 | Enviar parámetros inválidos | HTTP 400 | HTTP 400 | `tests/smoke.php`; `tests/http_smoke.py` | Correcto, negativo |
+| T-06 | Enviar una etiqueta HTML en la búsqueda | Escapar la salida | Etiqueta escapada | `tests/http_smoke.py` | Correcto, negativo |
+| T-07 | Abrir reto inexistente | HTTP 404 | HTTP 404 | `tests/http_smoke.py` | Correcto, negativo |
+| T-08 | Solicitar `/src/retos.php` | HTTP 404 | HTTP 404 | `tests/http_smoke.py` | Correcto, negativo |
+| T-09 | Abrir detalle, ranking y formulario | Mostrar vistas iniciales | HTTP 200 | `tests/http_smoke.py`; capturas 03–05 | Correcto |
 
-Tailwind CSS y Google Fonts respondieron HTTP 200 con contenido no vacío. No se detectaron patrones de credenciales ni bases SQLite en los archivos versionados; sus exclusiones se comprobaron mediante gitignore.
+## Capturas de pantalla
 
-## 6. Enlaces GitHub
+| Captura | Pantalla |
+|---|---|
+| [01_catalogo.png](evidencias/revision-01/01_catalogo.png) | Catálogo y filtros |
+| [02_busqueda_agua.png](evidencias/revision-01/02_busqueda_agua.png) | Búsqueda por `agua` |
+| [03_detalle_reto.png](evidencias/revision-01/03_detalle_reto.png) | Detalle del reto |
+| [04_ranking.png](evidencias/revision-01/04_ranking.png) | Ranking ilustrativo |
+| [05_formulario_participacion.png](evidencias/revision-01/05_formulario_participacion.png) | Formulario de participación |
 
-- [Historias e Issues](https://github.com/MarioDiazRamos/EcoReto/issues) y [backlog](BACKLOG.md).
-- [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8) y [commits](https://github.com/MarioDiazRamos/EcoReto/pull/8/commits).
-- Ramas: [master](https://github.com/MarioDiazRamos/EcoReto/tree/master), [develop](https://github.com/MarioDiazRamos/EcoReto/tree/develop) y [feature/catalogo-navegacion](https://github.com/MarioDiazRamos/EcoReto/tree/feature/catalogo-navegacion).
+## Evidencia de GitHub
 
-## 7. Pendientes
+- [Historias de usuario](https://github.com/MarioDiazRamos/EcoReto/issues) y [backlog](BACKLOG.md)
+- [PR #8 revisado e integrado](https://github.com/MarioDiazRamos/EcoReto/pull/8)
+- [Commit de integración](https://github.com/MarioDiazRamos/EcoReto/commit/8c8374b9fce60c0aff1295be031f79cfe3c4f0cc)
+- [Rama develop](https://github.com/MarioDiazRamos/EcoReto/tree/develop) y [rama master](https://github.com/MarioDiazRamos/EcoReto/tree/master)
 
-Revisión visual de la interfaz y revisión e integración del PR #8. Participaciones persistentes, autenticación, moderación, CRUD de retos, asignación de puntos y ranking real corresponden a las siguientes historias del backlog. La release final está pendiente.
+## Pendientes
 
-## 8. Participación
+La persistencia, la moderación, la administración de retos y la puntuación real corresponden a la segunda revisión. El ranking con datos reales corresponde a la entrega final.
 
-Mario Diaz Ramos (@MarioDiazRamos): catálogo, búsqueda, filtros, detalle, vistas iniciales y documentación de la entrega. Evidencia: commits del PR #8. Las funcionalidades restantes están por asignar; consultar [Equipo y colaboración](EQUIPO.md).
+## Participación
 
-## 9. Demostración
+Las responsabilidades de los cuatro integrantes se encuentran en [Equipo y responsabilidades](EQUIPO.md). En esta revisión, Mario Diaz Ramos desarrolló la funcionalidad presentada en el [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8), revisado y aprobado por Karlo Silvestre De la cruz Flores.
 
-1. Mostrar el catálogo y sus fechas y puntos.
-2. Buscar agua; combinar con Residuos para presentar el estado vacío.
-3. Abrir un detalle y recorrer las vistas de ranking, formulario y pendiente.
-4. Ejecutar las pruebas y presentar modelo, historias y PR.
+## Demostración
 
-La demostración final incorporará el recorrido persistente completo y la explicación de la funcionalidad desarrollada por cada integrante, con duración de 8–10 minutos.
+1. Consultar el catálogo con fechas y puntos.
+2. Buscar `agua` y aplicar filtros.
+3. Abrir un reto, mostrar el formulario, el estado pendiente y el ranking ilustrativo.
+4. Presentar el modelo de datos, los resultados de pruebas y el PR #8 integrado.
