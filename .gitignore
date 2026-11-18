@@ -14,3 +14,7 @@
 # Salidas locales
 *.log
 .DS_Store
+
+# Caché de pruebas Python
+__pycache__/
+*.py[cod]
