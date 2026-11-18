@@ -1,6 +1,6 @@
 # Historias y backlog
 
-Criterios completos versionados aquí; los Issues sirven para asignación y seguimiento. Estado inicial: HU-01 en curso; demás pendientes. No hay revisores externos registrados.
+Criterios completos versionados aquí; los Issues sirven para asignación y seguimiento. Estado: HU-01 implementada en la feature y pendiente de revisión/integración; demás funcionalidades pendientes. HU-05 tiene únicamente vista inicial sintética. No hay revisores externos registrados.
 
 | Historia | Issue | Revisión | Dependencias | Responsable |
 |---|---|---|---|---|
@@ -18,11 +18,11 @@ Como participante, quiero consultar catálogo y detalle para elegir un reto.
 
 Revisión: 1 — 19/11. Dependencias: Ninguna. Responsable: MarioDiazRamos.
 
-- [ ] El catálogo muestra título, fechas y puntos de cada semilla.
-- [ ] GET q busca por título o descripción y category filtra; ambos criterios se combinan.
-- [ ] Una búsqueda sin coincidencias muestra estado vacío; parámetros inválidos devuelven 400 y reto inexistente 404.
-- [ ] Detalle y navegación permiten volver al catálogo; no se ejecuta HTML enviado en la búsqueda.
-- [ ] Las vistas iniciales de ranking, formulario y pendiente se identifican como ejemplos sin persistencia.
+- [x] El catálogo muestra título, fechas y puntos de cada semilla.
+- [x] GET q busca por título o descripción y category filtra; ambos criterios se combinan.
+- [x] Una búsqueda sin coincidencias muestra estado vacío; parámetros inválidos devuelven 400 y reto inexistente 404.
+- [x] Detalle y navegación permiten volver al catálogo; no se ejecuta HTML enviado en la búsqueda.
+- [x] Las vistas iniciales de ranking, formulario y pendiente se identifican como ejemplos sin persistencia.
 
 ## HU-02 — Guardar participaciones y consultar su estado
 
