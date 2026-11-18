@@ -1,18 +1,19 @@
-## Historia y comportamiento
+## Historia relacionada
 
-Relacionado con # (Issue). Describir qué puede hacer ahora el usuario.
+HU-XX · Issue #
 
-## Pruebas ejecutadas
+## Descripción
 
-Indicar comandos, entradas, resultados y enlace a evidencia real. Separar pruebas pendientes.
+Funcionalidad y comportamiento incorporados.
 
-## Pendientes y límites
+## Cambios principales
 
-Indicar funcionalidades fuera del alcance y errores conocidos.
+- Cambio implementado.
 
-## Revisión
+## Pruebas
 
-- [ ] Rama feature nacida de develop actualizada; destino develop (salvo release).
-- [ ] Funcionalidad coherente y commits descriptivos.
-- [ ] Sin secretos ni bases SQLite locales.
-- [ ] Revisado por otro integrante real antes de integrar.
+Comandos, resultados y evidencia para reproducir la verificación.
+
+## Pendientes
+
+Limitaciones técnicas y pruebas pendientes.

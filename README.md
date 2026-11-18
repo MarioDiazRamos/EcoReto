@@ -1,53 +1,66 @@
 # EcoReto
 
-Proyecto 05 · Aplicaciones de Internet 2026.
+Aplicación de retos ecológicos del Proyecto 05 de Aplicaciones de Internet 2026. Su objetivo es registrar acciones verificadas y mostrar el progreso de las personas y sus grupos mediante puntos.
 
-Las campañas ecológicas suelen registrar participaciones manualmente y dan poca retroalimentación. EcoReto busca registrar retos, evidencias verificadas y puntos para mostrar avances individuales y por grupo.
+## Características del sistema
 
-## MVP y alcance del avance
+- Catálogo con fechas y puntos, búsqueda por texto, filtro por categoría y detalle de cada reto.
+- Vistas iniciales de ranking, formulario de participación y estado pendiente.
+- En desarrollo: persistencia de participaciones, roles, moderación, CRUD de retos y ranking con estadísticas basadas en aprobaciones.
 
-Catálogo con fechas y puntos; participación con evidencia textual; aprobación/rechazo por moderador; puntos solo al aprobar; ranking y estadísticas por persona o grupo. Incluye CRUD de retos en revisión 2. Sin API externa, recompensas monetarias ni reconocimiento automático de fotografías.
+El avance utiliza datos de ejemplo. El formulario y la vista pendiente no guardan participaciones; los puntos del ranking son ilustrativos.
 
-La primera feature implementa catálogo, detalle y búsqueda PHP con seis retos semilla, filtros combinados, estados vacíos y errores recuperables. Incluye navegación responsiva y bocetos; ranking, formulario y estado pendiente son vistas iniciales explícitamente identificadas como ejemplos. Persistencia, cuentas, moderación y cálculo definitivo corresponden al equipo y siguen pendientes. No se debe confundir una maqueta con un registro guardado.
+## Tecnologías utilizadas
 
-## Tecnologías y ejecución
+HTML5, Tailwind CSS por CDN de desarrollo, Google Fonts, JavaScript nativo y PHP puro 8.x. La persistencia prevista utiliza SQLite con PDO. No requiere frameworks, Composer ni Node.js.
 
-HTML5, utilidades Tailwind por CDN durante desarrollo, Google Fonts, JavaScript nativo y PHP puro 8.x. SQLite por PDO en la etapa de persistencia. Sin Node, Composer ni frameworks.
+## Requisitos de ejecución
 
-Para ejecutar el avance antes de integrar el PR, cambia a su rama:
+- PHP 8.x; versión probada: 8.5.12.
+- Extensión PDO SQLite para la etapa de persistencia.
+- Git y acceso al repositorio.
+- Navegador moderno y conexión a internet para estilos y fuentes.
+- Python 3, opcional para las pruebas HTTP.
+
+## Instalación y ejecución local
 
 ```sh
 git clone https://github.com/MarioDiazRamos/EcoReto.git
 cd EcoReto
 git switch feature/catalogo-navegacion
-php -v
-php -r 'var_export(PDO::getAvailableDrivers());'
 php -S 127.0.0.1:8000 -t public
 ```
 
-Abrir http://127.0.0.1:8000. Después de la revisión e integración real, usar `develop` actualizada. `master` y `develop` conservan la base documental mientras el PR permanezca abierto. No hay base que inicializar en el primer avance; los datos son ejemplos sintéticos. SQLite se alojará en `storage/`, fuera de `public/`, y sus archivos locales se ignoran. Los estilos y fuentes necesitan internet. El servidor integrado es para desarrollo local.
+Abrir http://127.0.0.1:8000/index.php. Detener el servidor con `Ctrl+C`.
 
-## Organización
+El avance está disponible en `feature/catalogo-navegacion`, correspondiente al [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8). Tras su integración, se podrá ejecutar desde `develop` actualizada. No requiere variables de entorno, inicialización de base de datos ni cuentas de acceso en esta etapa.
 
-- [Historias, backlog y dependencias](docs/BACKLOG.md).
-- [Modelo preliminar y reglas de puntuación](docs/MODELO.md).
-- [Equipo y flujo Git](docs/EQUIPO.md).
-- [Entrega y evidencia de revisión 1](docs/ENTREGA-01.md).
-- [Bocetos](docs/bocetos.svg).
+## Organización del proyecto
 
-Fuentes verificadas: PDF `Proyectos_Finales_Aplicaciones_de_Internet_2026_Guia_Alumno.pdf`, bases generales pp. 6–8, EcoReto pp. 20–21 y entrega pp. 32–33; guías `03-SESION-01-UI-ESTATICA.md` a `06-SESION-04-CRUD-Y-RELEASE.md`. Originales disponibles en Descargas del propietario; no se redistribuyen ni se copia UniSwap GTO.
+| Ruta | Contenido |
+|---|---|
+| `public/` | Páginas y recursos accesibles desde el navegador |
+| `src/` | Consultas al catálogo, datos de ejemplo y vistas compartidas |
+| `storage/` | Ubicación prevista para SQLite; archivos locales excluidos de Git |
+| `tests/` | Pruebas de lógica PHP y recorridos HTTP |
+| `docs/` | Backlog, modelo, colaboración y entregas |
 
-Revisiones: 19/11 (25 puntos), 26/11 (35 puntos), 03/12/2026 (40 puntos). El repositorio es inicialmente privado: el docente necesita acceso.
+## Pruebas
 
-## Pruebas y estado de colaboración
-
-Con el servidor iniciado:
+Con el servidor iniciado, ejecutar en otra terminal desde la raíz del proyecto:
 
 ```sh
 php tests/smoke.php
 python tests/http_smoke.py
 ```
 
-Python solo se usa para las pruebas HTTP opcionales; la aplicación requiere PHP y un navegador. Resultados ejecutados el 17/11: 14 pruebas PHP y 38 comprobaciones HTTP correctas. Recorrieron 16 rutas internas. Sin motor de navegador en este entorno: falta comprobar visualmente el móvil, el menú y la previsualización del formulario.
+Resultados registrados: 14 pruebas PHP y 38 comprobaciones HTTP satisfactorias, con 16 rutas internas recorridas. Las pruebas HTTP no evalúan la presentación visual ni la interacción en navegador.
 
-[PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8): `feature/catalogo-navegacion` → `develop`. Abierto, sin revisión ni integración. Ambas ramas principales exigen PR y una aprobación; administradores conservan excepción. Falta incorporar un compañero real para revisar. No se declara cumplido el requisito del primer PR integrado.
+## Documentación y backlog
+
+- [Backlog y calendario](docs/BACKLOG.md).
+- [Historias y criterios de aceptación](https://github.com/MarioDiazRamos/EcoReto/issues).
+- [Equipo y colaboración](docs/EQUIPO.md).
+- [Modelo de datos y reglas de puntuación](docs/MODELO.md).
+- [Entrega de la primera revisión y evidencias](docs/ENTREGA-01.md).
+- [Bocetos de pantallas](docs/bocetos.svg).
