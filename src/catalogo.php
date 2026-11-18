@@ -25,7 +25,7 @@ function normalizar(string $texto): string
 function leerTexto(array $entrada, string $clave, int $limite): string
 {
     $valor = $entrada[$clave] ?? '';
-    if (!is_string($valor) || strlen($valor) > $limite || preg_match('//u', $valor) !== 1) {
+    if (!is_string($valor) || preg_match('//u', $valor) !== 1 || preg_match_all('/./us', $valor) > $limite) {
         throw new \InvalidArgumentException('Parámetro inválido: ' . $clave);
     }
     return trim($valor);
