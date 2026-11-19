@@ -5,6 +5,7 @@ Proyecto 05 de Aplicaciones de Internet 2026. Las campañas ecológicas suelen r
 ## Funcionalidades
 
 - Catálogo de seis retos iniciales, con búsqueda por texto, filtro por categoría y detalle.
+- Alta de retos persistentes desde el panel de moderación protegido por sesión y CSRF.
 - Vistas de participación, estado pendiente y ranking con datos de ejemplo.
 - En desarrollo para las siguientes revisiones: persistencia SQLite, autenticación, moderación, administración de retos, puntuación y estadísticas reales.
 

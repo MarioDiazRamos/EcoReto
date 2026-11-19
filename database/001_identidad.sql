@@ -17,4 +17,16 @@ CREATE TABLE IF NOT EXISTS participantes (
     password_hash TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS retos (
+    id INTEGER PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    categoria TEXT NOT NULL,
+    fecha_inicio TEXT NOT NULL,
+    fecha_fin TEXT NOT NULL,
+    puntos INTEGER NOT NULL CHECK (puntos > 0),
+    evidencia TEXT NOT NULL,
+    activo INTEGER NOT NULL DEFAULT 1 CHECK (activo IN (0, 1))
+);
+
 COMMIT;

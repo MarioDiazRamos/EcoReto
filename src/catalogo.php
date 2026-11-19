@@ -9,7 +9,21 @@ function escapar(string $texto): string
 
 function retos(): array
 {
-    return require __DIR__ . '/retos.php';
+    require_once __DIR__ . '/base_datos.php';
+    $db = abrirBaseDatos();
+    $consulta = $db->query(
+        'SELECT id, titulo, categoria, puntos, fecha_inicio AS inicio,
+                fecha_fin AS fin, descripcion, evidencia
+         FROM retos
+         WHERE activo = 1
+         ORDER BY id'
+    );
+    $registros = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+    return array_map(static function (array $reto): array {
+        $reto['id'] = (int) $reto['id'];
+        $reto['puntos'] = (int) $reto['puntos'];
+        return $reto;
+    }, $registros);
 }
 
 function categorias(): array
