@@ -49,6 +49,9 @@ $cuenta = $_SESSION['cuenta'] ?? null;
             <h1>Sesión iniciada</h1>
             <p>Usuario: <?= htmlspecialchars($cuenta['usuario'], ENT_QUOTES, 'UTF-8') ?></p>
             <p>Rol: <?= htmlspecialchars($cuenta['rol'], ENT_QUOTES, 'UTF-8') ?></p>
+            <?php if ($cuenta['rol'] === 'moderador'): ?>
+                <p><a href="/moderacion.php">Abrir panel de moderación y crear retos</a></p>
+            <?php endif ?>
             <form method="post" action="/logout.php">
                 <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
                 <button type="submit">Cerrar sesión</button>

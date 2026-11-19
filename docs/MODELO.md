@@ -1,6 +1,6 @@
 # Modelo de datos preliminar
 
-La persistencia se implementará con SQLite y PDO. El avance actual consulta un catálogo de ejemplo; todavía no dispone de esquema SQL ni almacenamiento de participaciones.
+La persistencia utiliza SQLite y PDO para retos y participantes. Los moderadores pueden crear retos desde la interfaz; las participaciones siguen pendientes de implementación.
 
 ## Entidades
 
