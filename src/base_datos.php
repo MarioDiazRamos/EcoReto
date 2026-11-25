@@ -56,6 +56,11 @@ function abrirBaseDatos(): \PDO
 
     // Ejecutar la migración en SQLite
     $db->exec($sqlMigracion);
+    $moderacion = file_get_contents(dirname(__DIR__) . '/database/003_moderacion.sql');
+    if ($moderacion === false) {
+        throw new \RuntimeException('No se pudo leer la migración de moderación.');
+    }
+    $db->exec($moderacion);
 
 
     $semillas = require __DIR__ . '/retos.php';
