@@ -71,6 +71,7 @@ function ejecutarPruebasHU02(string $ruta): void
     // Crear las tablas del proyecto
     $db->exec($sqlIdentidad);
     $db->exec($sqlParticipaciones);
+    $db->exec(file_get_contents($raiz . '/database/003_moderacion.sql'));
 
     $hash = password_hash(
         'clave-prueba-hu02',

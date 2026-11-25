@@ -108,9 +108,13 @@ function listarParticipaciones(
             r.titulo AS reto_titulo,
             p.evidencia_textual,
             p.estado,
-            p.creada_en
+            p.creada_en,
+            COALESCE(pt.valor, 0) AS puntos_otorgados,
+            v.motivo
          FROM participaciones p
          INNER JOIN retos r ON r.id = p.reto_id
+         LEFT JOIN puntos pt ON pt.participacion_id = p.id
+         LEFT JOIN validaciones v ON v.participacion_id = p.id
          WHERE p.participante_id = ?
          ORDER BY p.creada_en DESC, p.id DESC'
     );
@@ -149,9 +153,13 @@ function obtenerParticipacion(
             r.titulo AS reto_titulo,
             p.evidencia_textual,
             p.estado,
-            p.creada_en
+            p.creada_en,
+            COALESCE(pt.valor, 0) AS puntos_otorgados,
+            v.motivo
          FROM participaciones p
          INNER JOIN retos r ON r.id = p.reto_id
+         LEFT JOIN puntos pt ON pt.participacion_id = p.id
+         LEFT JOIN validaciones v ON v.participacion_id = p.id
          WHERE p.id = ? AND p.participante_id = ?'
     );
 

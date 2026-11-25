@@ -197,22 +197,9 @@ cabecera('Mis participaciones', 'participar');
 
                     <p class="mt-2 whitespace-pre-wrap break-words text-stone-700"><?= escapar($participacion['evidencia_textual']) ?></p>
 
-                    <?php if (
-                        $estado === 'pendiente'
-                        || $estado === 'rechazada'
-                    ): ?>
-
-                        <p class="mt-4 text-sm font-semibold text-stone-600">
-                            Puntos otorgados: 0
-                        </p>
-
-                    <?php else: ?>
-
-                        <p class="mt-4 text-sm text-stone-600">
-                            La puntuación se consultará cuando esté
-                            integrado el módulo de puntos.
-                        </p>
-
+                    <p class="mt-4 font-semibold">Puntos otorgados: <?= (int) $participacion['puntos_otorgados'] ?></p>
+                    <?php if (($participacion['motivo'] ?? '') !== ''): ?>
+                        <p>Motivo de la revisión: <?= escapar($participacion['motivo']) ?></p>
                     <?php endif; ?>
 
                     <?php if ($participacionId === null): ?>

@@ -55,6 +55,7 @@ $cuenta = $_SESSION['cuenta'] ?? null;
             <form method="post" action="/logout.php">
                 <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
                 <button type="submit">Cerrar sesión</button>
+            </form>
         <?php else: ?>
             <h1>Iniciar sesión en EcoReto</h1>
 
