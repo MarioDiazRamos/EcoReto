@@ -71,8 +71,27 @@ check(
     and 'no envía ni guarda' not in form,
     'Formulario contextual preparado para guardar evidencias'
 )
+# HU-02: Comprobar la página de historial sin sesión
 status, pending = get('/pendiente.php')
-check(status == 200 and '0 <span' in pending and 'No se creó ningún registro' in pending, 'Estado pendiente de ejemplo indica cero puntos y ausencia de guardado')
+
+check(
+    status == 200
+    and 'Mis participaciones' in pending
+    and 'Inicia sesión para consultar tus participaciones' in pending
+    and 'href="/login.php"' in pending
+    and 'No se creó ningún registro' not in pending,
+    'Historial solicita autenticación y elimina datos ficticios'
+)
+
+# HU-02: Rechazar identificadores inválidos
+status, invalid_pending = get('/pendiente.php?id%5B%5D=1')
+
+check(
+    status == 400
+    and 'Solicitud no disponible' in invalid_pending,
+    'Historial rechaza identificadores inválidos'
+)
+
 status, ranking = get('/ranking.php')
 check(status == 200 and 'Personas de ejemplo' in ranking and 'Grupos de ejemplo' in ranking, 'Ranking inicial sintético por persona y grupo')
 visited = set()

@@ -220,7 +220,22 @@ cabecera('Registrar participación', 'participar');
             Registrar participación
         </button>
 
+
     </form>
+
+    <?php if ($autenticado): ?>
+
+        <div class="mt-6 text-center">
+
+            <a href="/pendiente.php"
+               class="inline-block font-bold text-emerald-800 underline underline-offset-4">
+                Ver mis participaciones
+            </a>
+
+        </div>
+
+    <?php endif; ?>
+
 </div>
 
 <?php pie(); ?>
