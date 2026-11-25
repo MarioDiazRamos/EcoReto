@@ -5,7 +5,7 @@ Las historias completas y sus criterios de aceptación están en [GitHub Issues]
 | Historia | Funcionalidad | Responsable | Estado |
 |---|---|---|---|
 | [HU-01 · #1](https://github.com/MarioDiazRamos/EcoReto/issues/1) | Catálogo, búsqueda y navegación | Mario Diaz Ramos | Integrada en `develop` mediante [PR #8](https://github.com/MarioDiazRamos/EcoReto/pull/8) |
-| [HU-02 · #2](https://github.com/MarioDiazRamos/EcoReto/issues/2) | Registro y consulta persistente de participaciones | Karlo Silvestre De la cruz Flores | Pendiente |
+| [HU-02 · #2](https://github.com/MarioDiazRamos/EcoReto/issues/2) | Registro y consulta persistente de participaciones | Karlo Silvestre De la cruz Flores | Implementada y probada en `feature/HU-02-participaciones`; pendiente de PR e integración a `develop` |
 | [HU-03 · #3](https://github.com/MarioDiazRamos/EcoReto/issues/3) | Autenticación, roles y moderación | Juan Rodolfo Mozqueda Lozano | Autenticación en [PR #11](https://github.com/MarioDiazRamos/EcoReto/pull/11); moderación pendiente |
 | [HU-04 · #4](https://github.com/MarioDiazRamos/EcoReto/issues/4) | Administración de retos (CRUD) | Francisco Javier Zavala Martinez | Pendiente |
 | [HU-05 · #5](https://github.com/MarioDiazRamos/EcoReto/issues/5) | Ranking y estadísticas | Mario Diaz Ramos | Vista inicial integrada; datos reales pendientes |

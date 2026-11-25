@@ -46,3 +46,10 @@ Resultados registrados el 18 de noviembre de 2026 sobre `develop`: 14 pruebas PH
 - [Integrantes y responsabilidades](docs/EQUIPO.md)
 - [Modelo de datos y reglas de puntuación](docs/MODELO.md)
 - [Primera entrega y evidencias](docs/ENTREGA-01.md)
+
+### Registro de participaciones (HU-02)
+
+El sistema permite registrar evidencias de retos ecológicos
+y consultar su estado mediante SQLite.
+
+Consulta la [documentación de HU-02](docs/HU-02.md).
