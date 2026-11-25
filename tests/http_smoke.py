@@ -1,5 +1,6 @@
 """Pruebas HTTP contra php -S ya iniciado. Solo biblioteca estándar de Python."""
 import sys
+import re
 from html.parser import HTMLParser
 from urllib.parse import urlencode, urlsplit
 from urllib.request import urlopen
@@ -53,9 +54,44 @@ check(status == 404 and 'Volver al catálogo' in missing, 'Reto inexistente devu
 status, detail = get('/reto.php?id=1')
 check(status == 200 and '40' in detail and '/participar.php?id=1' in detail, 'Detalle y enlace al formulario contextual')
 status, form = get('/participar.php?id=1')
-check(status == 200 and 'value="1" selected' in form and 'no envía ni guarda' in form, 'Formulario contextual rotulado como prototipo')
+# Comprobar que el reto 1 esté seleccionado,
+# aunque el HTML contenga espacios o saltos de línea.
+reto_seleccionado = re.search(
+    r'<option\b[^>]*\bvalue="1"[^>]*\bselected\b',
+    form,
+    re.IGNORECASE | re.DOTALL
+) is not None
+check(
+    status == 200
+    and reto_seleccionado
+    and 'method="post"' in form
+    and 'name="csrf"' in form
+    and 'name="reto_id"' in form
+    and 'name="evidencia"' in form
+    and 'no envía ni guarda' not in form,
+    'Formulario contextual preparado para guardar evidencias'
+)
+# HU-02: Comprobar la página de historial sin sesión
 status, pending = get('/pendiente.php')
-check(status == 200 and '0 <span' in pending and 'No se creó ningún registro' in pending, 'Estado pendiente de ejemplo indica cero puntos y ausencia de guardado')
+
+check(
+    status == 200
+    and 'Mis participaciones' in pending
+    and 'Inicia sesión para consultar tus participaciones' in pending
+    and 'href="/login.php"' in pending
+    and 'No se creó ningún registro' not in pending,
+    'Historial solicita autenticación y elimina datos ficticios'
+)
+
+# HU-02: Rechazar identificadores inválidos
+status, invalid_pending = get('/pendiente.php?id%5B%5D=1')
+
+check(
+    status == 400
+    and 'Solicitud no disponible' in invalid_pending,
+    'Historial rechaza identificadores inválidos'
+)
+
 status, ranking = get('/ranking.php')
 check(status == 200 and 'Personas de ejemplo' in ranking and 'Grupos de ejemplo' in ranking, 'Ranking inicial sintético por persona y grupo')
 visited = set()
@@ -71,7 +107,12 @@ while queue:
     parser.feed(html)
     queue.extend(parser.links - visited)
 status, js = get('/assets/app.js')
-check(status == 200 and 'aria-expanded' in js and 'reportValidity' in js, 'JavaScript nativo servido con controles de menú y previsualización')
+check(
+    status == 200
+    and 'aria-expanded' in js
+    and 'participation-preview' not in js,
+    'JavaScript conserva el menú sin redirección ficticia'
+)
 check('name="viewport"' in home and 'md:grid-cols-2' in home and 'lg:grid-cols-3' in home, 'Marcado incluye viewport y columnas responsivas')
 for path in ['/src/retos.php', '/storage/.gitkeep']:
     status, _ = get(path)

@@ -42,6 +42,22 @@ function abrirBaseDatos(): \PDO
         );'
     );
 
+    // HU-02: Crear la tabla de participaciones
+    $rutaMigracion = dirname(__DIR__)
+        . '/database/002_participaciones.sql';
+
+    $sqlMigracion = file_get_contents($rutaMigracion);
+
+    if ($sqlMigracion === false) {
+        throw new \RuntimeException(
+            'No se pudo leer la migración de participaciones.'
+        );
+    }
+
+    // Ejecutar la migración en SQLite
+    $db->exec($sqlMigracion);
+
+
     $semillas = require __DIR__ . '/retos.php';
     $insertar = $db->prepare(
         'INSERT INTO retos
