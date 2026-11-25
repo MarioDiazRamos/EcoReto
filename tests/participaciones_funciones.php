@@ -50,6 +50,8 @@ $db->exec(file_get_contents(
     dirname(__DIR__) . '/database/002_participaciones.sql'
 ));
 
+$db->exec(file_get_contents(dirname(__DIR__) . '/database/003_moderacion.sql'));
+
 // Crear usuarios de prueba
 $db->exec(
     "INSERT INTO participantes

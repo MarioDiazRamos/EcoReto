@@ -18,11 +18,15 @@ if ($cuenta['rol'] !== 'moderador') {
 require_once dirname(__DIR__) . '/src/base_datos.php';
 require_once dirname(__DIR__) . '/src/vista.php';
 
+require_once dirname(__DIR__) . '/src/moderacion.php';
+
+use function EcoReto\pendientesDeRevision;
+use function EcoReto\revisarParticipacion;
 use function EcoReto\abrirBaseDatos;
 use function EcoReto\escapar;
 
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-$mensaje = '';
+$db = abrirBaseDatos();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,6 +34,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_string($token) || !hash_equals($_SESSION['csrf'], $token)) {
         http_response_code(403);
         $error = 'Recarga la página y vuelve a intentarlo.';
+    } elseif (isset($_POST['revisar'])) {
+        $id = filter_input(INPUT_POST, 'participacion_id', FILTER_VALIDATE_INT);
+        $decision = $_POST['decision'] ?? null;
+        $motivo = $_POST['motivo'] ?? '';
+        try {
+            if (!$id || $id < 1 || !is_string($decision) || !is_string($motivo)) {
+                throw new InvalidArgumentException('Revisa los datos de la participación.');
+            }
+            revisarParticipacion($db, $id, $cuenta['participante_id'], $decision, $motivo);
+            $_SESSION['revision'] = "Participación #$id $decision.";
+            header('Location: /moderacion.php', true, 303);
+            exit;
+        } catch (InvalidArgumentException | DomainException $e) {
+            http_response_code($e instanceof DomainException ? 409 : 422);
+            $error = $e->getMessage();
+        }
     } else {
         $titulo = trim((string) ($_POST['titulo'] ?? ''));
         $categoria = trim((string) ($_POST['categoria'] ?? ''));
@@ -50,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             http_response_code(422);
             $error = 'Revisa los datos: todos los campos son obligatorios y las fechas deben ser válidas.';
         } else {
-            $db = abrirBaseDatos();
             $insertar = $db->prepare(
                 'INSERT INTO retos
                     (titulo, descripcion, categoria, fecha_inicio, fecha_fin, puntos, evidencia, activo)
@@ -93,6 +112,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p role="alert" class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-900"><?= escapar($error) ?></p>
     <?php endif ?>
 
+    <section class="mt-8" aria-labelledby="pendientes">
+        <h2 id="pendientes" class="text-2xl font-bold">Participaciones pendientes</h2>
+        <?php if (isset($_SESSION['revision'])): ?>
+            <p role="status"><?= escapar($_SESSION['revision']) ?></p>
+            <?php unset($_SESSION['revision']); ?>
+        <?php endif ?>
+        <?php $pendientes = pendientesDeRevision($db, $cuenta['participante_id']); ?>
+        <?php if (!$pendientes): ?>
+            <p class="mt-3">No hay participaciones pendientes que puedas revisar.</p>
+        <?php endif ?>
+        <?php foreach ($pendientes as $p): ?>
+            <article class="mt-4 rounded-2xl border border-stone-200 bg-white p-6">
+                <h3 class="font-bold"><?= escapar($p['titulo']) ?> · <?= (int) $p['puntos'] ?> puntos</h3>
+                <p><?= escapar($p['nombre_visible']) ?> · Participación #<?= (int) $p['id'] ?></p>
+                <p class="my-3 whitespace-pre-wrap break-words"><?= escapar($p['evidencia_textual']) ?></p>
+                <form method="post" class="grid gap-3">
+                    <input type="hidden" name="csrf" value="<?= escapar($_SESSION['csrf']) ?>">
+                    <input type="hidden" name="revisar" value="1">
+                    <input type="hidden" name="participacion_id" value="<?= (int) $p['id'] ?>">
+                    <label>Motivo de la decisión (opcional)
+                        <textarea class="block w-full rounded border p-2" name="motivo" maxlength="1000"></textarea>
+                    </label>
+                    <div class="flex gap-3">
+                        <button class="rounded bg-emerald-900 px-4 py-2 text-white" name="decision" value="aprobada">Aprobar</button>
+                        <button class="rounded border border-red-800 px-4 py-2 text-red-800" name="decision" value="rechazada">Rechazar</button>
+                    </div>
+                </form>
+            </article>
+        <?php endforeach ?>
+    </section>
+
+    <h2 class="mt-8 text-2xl font-bold">Crear reto</h2>
     <form method="post" class="mt-8 grid gap-5 rounded-2xl border border-stone-200 bg-white p-6">
         <input type="hidden" name="csrf" value="<?= escapar($_SESSION['csrf']) ?>">
         <div>
