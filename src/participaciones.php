@@ -13,11 +13,13 @@ namespace EcoReto;
  * - Participante existente.
  * - Una participación por usuario y reto.
  */
+
 function registrarParticipacion(
     \PDO $db,
     int $retoId,
     int $participanteId,
-    string $evidencia
+    string $evidencia,
+    ?\DateTimeImmutable $fechaActual = null
 ): int {
     if ($retoId <= 0 || $participanteId <= 0) {
         throw new \InvalidArgumentException(
@@ -35,15 +37,48 @@ function registrarParticipacion(
         );
     }
 
-    // Comprobar que el reto exista y esté activo
+    // HU-02: Consultar el reto y sus fechas.
     $consulta = $db->prepare(
-        'SELECT id FROM retos WHERE id = ? AND activo = 1'
+        'SELECT fecha_inicio, fecha_fin
+        FROM retos
+        WHERE id = ? AND activo = 1'
     );
+
     $consulta->execute([$retoId]);
 
-    if ($consulta->fetchColumn() === false) {
+    $reto = $consulta->fetch(\PDO::FETCH_ASSOC);
+
+    // Validar que exista y esté activo.
+    if ($reto === false) {
         throw new \DomainException(
             'El reto no existe o está inactivo.'
+        );
+    }
+
+    // Zona horaria utilizada por EcoReto.
+    $zona = new \DateTimeZone('America/Mexico_City');
+
+    // En funcionamiento normal se utiliza la fecha real.
+    // En pruebas se puede proporcionar una fecha específica.
+    $fechaActual ??= new \DateTimeImmutable('now', $zona);
+
+    $hoy = $fechaActual
+        ->setTimezone($zona)
+        ->format('Y-m-d');
+
+    // Validar que el reto ya haya comenzado.
+    if ($hoy < $reto['fecha_inicio']) {
+        throw new \DomainException(
+            'El reto todavía no ha comenzado. Inicia el '
+            . $reto['fecha_inicio'] . '.'
+        );
+    }
+
+    // Validar que el reto no haya terminado.
+    if ($hoy > $reto['fecha_fin']) {
+        throw new \DomainException(
+            'El plazo para participar terminó el '
+            . $reto['fecha_fin'] . '.'
         );
     }
 

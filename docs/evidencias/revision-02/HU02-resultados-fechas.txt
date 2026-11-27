@@ -1,0 +1,12 @@
+OK: Rechazar reto que empieza mañana
+OK: Rechazar reto vencido
+OK: Los rechazos no guardan participaciones
+OK: Aceptar el dia inicial
+OK: Aceptar el dia final
+OK: Aceptar durante el plazo
+OK: Conservar el rechazo de retos inactivos
+OK: Conservar la prevención de duplicados
+OK: Respetar la fecha de Ciudad de México
+OK: Solo se guardaron las cuatro participaciones validas
+
+Pruebas de fechas HU-02 completadas.
