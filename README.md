@@ -49,7 +49,24 @@ Resultados registrados el 18 de noviembre de 2026 sobre `develop`: 14 pruebas PH
 
 ### Registro de participaciones (HU-02)
 
-El sistema permite registrar evidencias de retos ecológicos
-y consultar su estado mediante SQLite.
+El sistema permite que los usuarios autenticados registren
+evidencias de los retos ecológicos y consulten su historial
+mediante SQLite.
+
+Las participaciones se guardan con estado inicial pendiente.
+El servidor valida los datos, evita duplicados y verifica
+que la fecha actual esté dentro del periodo del reto.
+
+Se permite participar tanto el día de inicio como el día
+de finalización del reto. Se utiliza la zona horaria de
+Ciudad de México.
+
+Las pruebas automatizadas de HU-02 están desarrolladas en PHP.
+
+Para ejecutar las pruebas de fechas:
+
+```sh
+php tests/participaciones_fechas.php
+```
 
 Consulta la [documentación de HU-02](docs/HU-02.md).
